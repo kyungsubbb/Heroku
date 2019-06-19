@@ -1,0 +1,1 @@
+web: gunicorn LIKELION05.wsgi --log-file -

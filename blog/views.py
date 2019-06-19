@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
 from .models import Blog
+from .form import BlogPost
 
 def home(request):
     blogs=Blog.objects      # 쿼리셋(객체 목록 받아옴)  # 메소드
@@ -20,3 +21,15 @@ def create(request):
     blog.pub_date=timezone.datetime.now()   # 블로그 작성한 시점 넣어주는 함수
     blog.save()     # 객체를 db에 저장
     return redirect('/blog/'+str(blog.id))  # str(정수형을 문자형으로 변경), url+문자열  
+
+def blogpost(request):
+    if request.method =='POST':
+        form = BlogPost(request.POST)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.pub_date=timezone.now()
+            post.save()
+            return redirect('home')
+    else:
+        form = BlogPost()
+        return render(request,'new.html',{'form':form})
