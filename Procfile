@@ -1,1 +1,1 @@
-web: gunicorn LIKELION05.wsgi --log-file -
+web: gunicorn project.wsgi --log-file -
